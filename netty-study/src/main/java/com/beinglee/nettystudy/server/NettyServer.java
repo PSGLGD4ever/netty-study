@@ -1,5 +1,6 @@
 package com.beinglee.nettystudy.server;
 
+import com.beinglee.nettystudy.server.handler.FirstServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -37,6 +38,7 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
                         System.out.println("客户端连接成功...");
+                        channel.pipeline().addLast(new FirstServerHandler());
                     }
                 });
         bind(server, PORT);
