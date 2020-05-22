@@ -6,7 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 
 /**
  * 客户端写入数据
@@ -22,7 +21,7 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buffer = ctx.alloc().buffer();
         byte[] bytes = "你好，小可爱".getBytes(StandardCharsets.UTF_8);
         buffer.writeBytes(bytes);
-        ctx.writeAndFlush(buffer);
+        ctx.channel().writeAndFlush(buffer);
     }
 
     @Override
