@@ -8,11 +8,13 @@ import java.util.Map;
 
 public class PacketCodeC {
 
-    public static final int MAGIC_NUMBER = 0x12345678;
+    private static final int MAGIC_NUMBER = 0x12345678;
 
-    public static final Map<Byte, Class<? extends Packet>> packetTypes;
+    private static final Map<Byte, Class<? extends Packet>> packetTypes;
 
-    public static final Map<Byte, Serializer> serializerTypes;
+    private static final Map<Byte, Serializer> serializerTypes;
+
+    private static final PacketCodeC instance = new PacketCodeC();
 
     static {
         packetTypes = new HashMap<>();
@@ -62,6 +64,10 @@ public class PacketCodeC {
             return serializer.deserialize(bytes, packetType);
         }
         return null;
+    }
+
+    public static PacketCodeC getInstance() {
+        return instance;
     }
 
     private Class<? extends Packet> getPacketType(byte command) {

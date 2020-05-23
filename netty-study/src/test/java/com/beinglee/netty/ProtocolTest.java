@@ -22,9 +22,8 @@ public class ProtocolTest {
         loginPacket.setUserName("beingLee");
         loginPacket.setPassword("p@ssword");
 
-        PacketCodeC packetCodeC = new PacketCodeC();
-        ByteBuf encodePacket = packetCodeC.encode(loginPacket);
-        LoginRequestPacket decodedPacket = (LoginRequestPacket) packetCodeC.decode(encodePacket);
+        ByteBuf encodePacket = PacketCodeC.getInstance().encode(loginPacket);
+        LoginRequestPacket decodedPacket = (LoginRequestPacket) PacketCodeC.getInstance().decode(encodePacket);
 
         Assert.assertEquals(loginPacket.getUserId(), decodedPacket.getUserId());
         Assert.assertEquals(loginPacket.getUserName(), decodedPacket.getUserName());
