@@ -1,5 +1,6 @@
 package com.beinglee.nettystudy.client;
 
+import com.beinglee.nettystudy.client.handler.ClientLoginHandler;
 import com.beinglee.nettystudy.client.handler.FirstClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -31,7 +32,7 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         System.out.println("客户端启动中...");
-                        socketChannel.pipeline().addLast(new FirstClientHandler());
+                        socketChannel.pipeline().addLast(new ClientLoginHandler());
                     }
                 });
         connect(bootstrap, HOST, PORT, MAX_RETRY);

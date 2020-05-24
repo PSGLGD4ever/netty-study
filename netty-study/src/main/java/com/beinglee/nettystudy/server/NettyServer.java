@@ -1,6 +1,7 @@
 package com.beinglee.nettystudy.server;
 
 import com.beinglee.nettystudy.server.handler.FirstServerHandler;
+import com.beinglee.nettystudy.server.handler.ServerLoginHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -29,7 +30,7 @@ public class NettyServer {
                 // 指定在服务端启动过程中的一些逻辑
                 .handler(new ChannelInitializer<NioServerSocketChannel>() {
                     @Override
-                    protected void initChannel(NioServerSocketChannel nioServerSocketChannel) throws Exception {
+                    protected void initChannel(NioServerSocketChannel channel) {
                         System.out.println("服务端启动中...");
                     }
                 })
@@ -38,7 +39,7 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
                         System.out.println("客户端连接成功...");
-                        channel.pipeline().addLast(new FirstServerHandler());
+                        channel.pipeline().addLast(new ServerLoginHandler());
                     }
                 });
         bind(server, PORT);
