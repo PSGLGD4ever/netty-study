@@ -1,5 +1,6 @@
-package com.beinglee.nettystudy.protocol;
+package com.beinglee.nettystudy.protocol.packet;
 
+import com.beinglee.nettystudy.protocol.Command;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,7 +1,10 @@
 package com.beinglee.nettystudy.client.handler;
 
-import com.beinglee.nettystudy.protocol.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.PacketCodeC;
+import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
+import com.beinglee.nettystudy.protocol.packet.Packet;
+import com.beinglee.nettystudy.utils.LocalDateUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -23,8 +26,15 @@ public class ClientLoginHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf re = (ByteBuf) msg;
-        System.out.println(re.toString(StandardCharsets.UTF_8));
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        Packet response = PacketCodeC.getInstance().decode((ByteBuf) msg);
+        if (response instanceof LoginResponsePacket) {
+            LoginResponsePacket re = (LoginResponsePacket) response;
+            if (re.getSuccess()) {
+                System.out.println(LocalDateUtils.now() + ":客户端登录成功");
+            } else {
+                System.out.println(LocalDateUtils.now() + ":客户端登录失败，失败原因：" + re.getReason());
+            }
+        }
     }
 }

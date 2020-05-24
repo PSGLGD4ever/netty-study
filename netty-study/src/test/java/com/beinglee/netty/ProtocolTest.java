@@ -1,9 +1,9 @@
 package com.beinglee.netty;
 
-import com.beinglee.nettystudy.protocol.JsonSerializer;
-import com.beinglee.nettystudy.protocol.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.serializer.JsonSerializer;
+import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.PacketCodeC;
-import com.beinglee.nettystudy.protocol.Serializer;
+import com.beinglee.nettystudy.protocol.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
 import org.junit.Assert;
 import org.junit.Test;

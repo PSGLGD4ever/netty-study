@@ -1,5 +1,10 @@
 package com.beinglee.nettystudy.protocol;
 
+import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
+import com.beinglee.nettystudy.protocol.packet.Packet;
+import com.beinglee.nettystudy.protocol.serializer.JsonSerializer;
+import com.beinglee.nettystudy.protocol.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
@@ -19,6 +24,7 @@ public class PacketCodeC {
     static {
         packetTypes = new HashMap<>();
         packetTypes.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypes.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
         serializerTypes = new HashMap<>();
         Serializer serializer = new JsonSerializer();
         serializerTypes.put(serializer.getSerializerAlgorithm(), serializer);

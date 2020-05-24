@@ -1,4 +1,4 @@
-package com.beinglee.nettystudy.protocol;
+package com.beinglee.nettystudy.protocol.serializer;
 
 import com.alibaba.fastjson.JSON;
 
