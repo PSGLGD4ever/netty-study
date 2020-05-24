@@ -1,40 +1,34 @@
 package com.beinglee.nettystudy.server.handler;
 
-import com.beinglee.nettystudy.protocol.PacketCodeC;
-import com.beinglee.nettystudy.protocol.packet.*;
+import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
 import com.beinglee.nettystudy.utils.LocalDateUtils;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.commons.lang3.StringUtils;
 
-public class ServerLoginHandler extends ChannelInboundHandlerAdapter {
+public class ServerLoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf request = (ByteBuf) msg;
-        Packet packet = PacketCodeC.getInstance().decode(request);
-        if (packet instanceof LoginRequestPacket) {
-            LoginRequestPacket login = (LoginRequestPacket) packet;
-            String userName = login.getUserName();
-            String password = login.getPassword();
-            LoginResponsePacket response = new LoginResponsePacket();
-            if (StringUtils.equals(userName, "beingLee") && StringUtils.equals(password, "p@ssword")) {
-                response.setSuccess(true);
-                String re = "客户端[" + userName + "]登录成功";
-                System.out.println(re);
-            } else {
-                response.setSuccess(false);
-                response.setReason("用户名密码错误!");
-            }
-            ctx.channel().writeAndFlush(PacketCodeC.getInstance().encode(response));
-        } else if (packet instanceof MsgRequestPacket) {
-            MsgRequestPacket msgRequest = (MsgRequestPacket) packet;
-            System.out.println(LocalDateUtils.now() + ":收到客户端消息：" + msgRequest.getMessage());
+    protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
+        System.out.println(LocalDateUtils.now() + ":收到客户端登录请求...");
 
-            MsgResponsePacket response = new MsgResponsePacket();
-            response.setMessage("服务端回复：[" + msgRequest.getMessage() + "]");
-            ctx.channel().writeAndFlush(PacketCodeC.getInstance().encode(response));
+        LoginResponsePacket responsePacket = new LoginResponsePacket();
+        responsePacket.setVersion(loginRequestPacket.getVersion());
+        if (valid(loginRequestPacket)) {
+            responsePacket.setSuccess(true);
+            System.out.println(LocalDateUtils.now() + ":客户端登录成功～");
+        } else {
+            responsePacket.setSuccess(false);
+            responsePacket.setReason("账号密码校验失败");
+            System.out.println(LocalDateUtils.now() + ":客户端登录失败");
         }
+        ctx.channel().writeAndFlush(responsePacket);
+    }
+
+    private boolean valid(LoginRequestPacket loginRequestPacket) {
+        String userName = loginRequestPacket.getUserName();
+        String password = loginRequestPacket.getPassword();
+        return StringUtils.equals(userName, "beingLee") && StringUtils.equals(password, "p@ssword");
     }
 }

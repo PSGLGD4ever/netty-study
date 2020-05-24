@@ -4,7 +4,6 @@ import com.beinglee.nettystudy.protocol.packet.*;
 import com.beinglee.nettystudy.protocol.serializer.JsonSerializer;
 import com.beinglee.nettystudy.protocol.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +30,7 @@ public class PacketCodeC {
         serializerTypes.put(serializer.getSerializerAlgorithm(), serializer);
     }
 
-    public ByteBuf encode(Packet packet) {
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.ioBuffer();
+    public void encode(ByteBuf buffer, Packet packet) {
         // 序列化
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
         // 魔法数字
@@ -47,7 +45,6 @@ public class PacketCodeC {
         buffer.writeInt(bytes.length);
         // 数据
         buffer.writeBytes(bytes);
-        return buffer;
     }
 
     public Packet decode(ByteBuf byteBuf) {

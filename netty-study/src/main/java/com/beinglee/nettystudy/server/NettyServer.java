@@ -1,9 +1,12 @@
 package com.beinglee.nettystudy.server;
 
-import com.beinglee.nettystudy.server.handler.FirstServerHandler;
+import com.beinglee.nettystudy.codec.PacketDecoder;
+import com.beinglee.nettystudy.codec.PacketEncoder;
+import com.beinglee.nettystudy.server.handler.MessageRequestHandler;
 import com.beinglee.nettystudy.server.handler.ServerLoginHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -27,6 +30,9 @@ public class NettyServer {
         server.group(masterGroup, workerGroup)
                 // 指定IO模型
                 .channel(NioServerSocketChannel.class)
+                .option(ChannelOption.SO_BACKLOG, 1024)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
+                .childOption(ChannelOption.TCP_NODELAY, true)
                 // 指定在服务端启动过程中的一些逻辑
                 .handler(new ChannelInitializer<NioServerSocketChannel>() {
                     @Override
@@ -39,7 +45,10 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
                         System.out.println("客户端连接成功...");
+                        channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new ServerLoginHandler());
+                        channel.pipeline().addLast(new MessageRequestHandler());
+                        channel.pipeline().addLast(new PacketEncoder());
                     }
                 });
         bind(server, PORT);

@@ -1,6 +1,9 @@
 package com.beinglee.nettystudy.client;
 
 import com.beinglee.nettystudy.client.handler.ClientLoginHandler;
+import com.beinglee.nettystudy.client.handler.MessageResponseHandler;
+import com.beinglee.nettystudy.codec.PacketDecoder;
+import com.beinglee.nettystudy.codec.PacketEncoder;
 import com.beinglee.nettystudy.protocol.PacketCodeC;
 import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
 import com.beinglee.nettystudy.utils.LoginUtils;
@@ -35,9 +38,12 @@ public class NettyClient {
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
-                    protected void initChannel(SocketChannel socketChannel) {
+                    protected void initChannel(SocketChannel channel) {
                         System.out.println("客户端启动中...");
-                        socketChannel.pipeline().addLast(new ClientLoginHandler());
+                        channel.pipeline().addLast(new PacketDecoder());
+                        channel.pipeline().addLast(new ClientLoginHandler());
+                        channel.pipeline().addLast(new MessageResponseHandler());
+                        channel.pipeline().addLast(new PacketEncoder());
                     }
                 });
         connect(bootstrap, HOST, PORT, MAX_RETRY);
@@ -70,7 +76,7 @@ public class NettyClient {
 
                     MsgRequestPacket requestPacket = new MsgRequestPacket();
                     requestPacket.setMessage(line);
-                    channel.writeAndFlush(PacketCodeC.getInstance().encode(requestPacket));
+                    channel.writeAndFlush(requestPacket);
                 }
             }
         }).start();
