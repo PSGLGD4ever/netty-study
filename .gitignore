@@ -1,0 +1,16 @@
+/.idea/$CACHE_FILE$
+/.idea/.gitignore
+/.idea/compiler.xml
+/.idea/jarRepositories.xml
+/.idea/kotlinc.xml
+/.idea/libraries/Maven__com_alibaba_fastjson_1_2_29.xml
+/.idea/libraries/Maven__io_netty_netty_all_4_1_6_Final.xml
+/.idea/libraries/Maven__junit_junit_4_12.xml
+/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_9.xml
+/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml
+/.idea/libraries/Maven__org_projectlombok_lombok_1_16_12.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/uiDesigner.xml
+/.idea/vcs.xml

@@ -1,14 +1,19 @@
 package com.beinglee.nettystudy.client;
 
 import com.beinglee.nettystudy.client.handler.ClientLoginHandler;
-import com.beinglee.nettystudy.client.handler.FirstClientHandler;
+import com.beinglee.nettystudy.protocol.PacketCodeC;
+import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
+import com.beinglee.nettystudy.utils.LoginUtils;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.time.LocalDateTime;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,7 +35,7 @@ public class NettyClient {
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
-                    protected void initChannel(SocketChannel socketChannel) throws Exception {
+                    protected void initChannel(SocketChannel socketChannel) {
                         System.out.println("客户端启动中...");
                         socketChannel.pipeline().addLast(new ClientLoginHandler());
                     }
@@ -42,6 +47,8 @@ public class NettyClient {
         bootstrap.connect(host, port).addListener(future -> {
             if (future.isSuccess()) {
                 System.out.println("连接成功!");
+                Channel channel = ((ChannelFuture) future).channel();
+                startConsoleThread(channel);
             } else if (retry == 0) {
                 System.out.println("连接失败!");
             } else {
@@ -51,6 +58,21 @@ public class NettyClient {
                 bootstrap.config().group().schedule(() -> connect(bootstrap, host, port, retry - 1), delay, TimeUnit.SECONDS);
             }
         });
+    }
 
+    private static void startConsoleThread(Channel channel) {
+        new Thread(() -> {
+            while (!Thread.interrupted()) {
+                if (LoginUtils.hasLogin(channel)) {
+                    System.out.println("输入消息发送至服务端: ");
+                    Scanner sc = new Scanner(System.in);
+                    String line = sc.nextLine();
+
+                    MsgRequestPacket requestPacket = new MsgRequestPacket();
+                    requestPacket.setMessage(line);
+                    channel.writeAndFlush(PacketCodeC.getInstance().encode(requestPacket));
+                }
+            }
+        }).start();
     }
 }
