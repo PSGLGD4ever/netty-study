@@ -2,9 +2,9 @@ package com.beinglee.nettystudy.client;
 
 import com.beinglee.nettystudy.client.handler.ClientLoginHandler;
 import com.beinglee.nettystudy.client.handler.MessageResponseHandler;
+import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
-import com.beinglee.nettystudy.protocol.PacketCodeC;
 import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
 import com.beinglee.nettystudy.utils.LoginUtils;
 import io.netty.bootstrap.Bootstrap;
@@ -39,7 +39,7 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel channel) {
-                        System.out.println("客户端启动中...");
+                        channel.pipeline().addLast(new NettySpliter());
                         channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new ClientLoginHandler());
                         channel.pipeline().addLast(new MessageResponseHandler());

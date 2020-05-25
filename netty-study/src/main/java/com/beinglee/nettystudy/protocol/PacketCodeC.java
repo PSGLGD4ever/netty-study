@@ -8,15 +8,18 @@ import io.netty.buffer.ByteBuf;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Luz
+ */
 public class PacketCodeC {
 
-    private static final int MAGIC_NUMBER = 0x12345678;
+    public static final int MAGIC_NUMBER = 0x12345678;
 
     private static final Map<Byte, Class<? extends Packet>> packetTypes;
 
     private static final Map<Byte, Serializer> serializerTypes;
 
-    private static final PacketCodeC instance = new PacketCodeC();
+    private static final PacketCodeC INSTANCE = new PacketCodeC();
 
     static {
         packetTypes = new HashMap<>();
@@ -71,7 +74,7 @@ public class PacketCodeC {
     }
 
     public static PacketCodeC getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     private Class<? extends Packet> getPacketType(byte command) {

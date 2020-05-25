@@ -1,5 +1,6 @@
 package com.beinglee.nettystudy.server;
 
+import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
 import com.beinglee.nettystudy.server.handler.MessageRequestHandler;
@@ -45,6 +46,7 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
                         System.out.println("客户端连接成功...");
+                        channel.pipeline().addLast(new NettySpliter());
                         channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new ServerLoginHandler());
                         channel.pipeline().addLast(new MessageRequestHandler());
