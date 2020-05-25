@@ -3,6 +3,7 @@ package com.beinglee.nettystudy.server.handler;
 import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
 import com.beinglee.nettystudy.utils.LocalDateUtils;
+import com.beinglee.nettystudy.utils.LoginUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -12,10 +13,10 @@ public class ServerLoginHandler extends SimpleChannelInboundHandler<LoginRequest
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
         System.out.println(LocalDateUtils.now() + ":收到客户端登录请求...");
-
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         responsePacket.setVersion(loginRequestPacket.getVersion());
         if (valid(loginRequestPacket)) {
+            LoginUtils.markAsLogin(ctx.channel());
             responsePacket.setSuccess(true);
             System.out.println(LocalDateUtils.now() + ":客户端登录成功～");
         } else {

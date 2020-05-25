@@ -6,7 +6,6 @@ import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
 import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
-import com.beinglee.nettystudy.utils.LoginUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -69,16 +68,16 @@ public class NettyClient {
     private static void startConsoleThread(Channel channel) {
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtils.hasLogin(channel)) {
-                    System.out.println("输入消息发送至服务端: ");
-                    Scanner sc = new Scanner(System.in);
-                    String line = sc.nextLine();
+//                if (LoginUtils.hasLogin(channel)) {
+                System.out.println("输入消息发送至服务端: ");
+                Scanner sc = new Scanner(System.in);
+                String line = sc.nextLine();
 
-                    MsgRequestPacket requestPacket = new MsgRequestPacket();
-                    requestPacket.setMessage(line);
-                    channel.writeAndFlush(requestPacket);
-                }
+                MsgRequestPacket requestPacket = new MsgRequestPacket();
+                requestPacket.setMessage(line);
+                channel.writeAndFlush(requestPacket);
             }
+//            }
         }).start();
     }
 }
