@@ -6,6 +6,7 @@ import io.netty.channel.Channel;
 import io.netty.util.Attribute;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public abstract class LoginUtils {
 
@@ -16,5 +17,9 @@ public abstract class LoginUtils {
     public static boolean hasLogin(Channel channel) {
         Attribute<Boolean> loginAttr = channel.attr(Attributes.LOGIN);
         return Optional.ofNullable(loginAttr.get()).orElse(false);
+    }
+
+    public static String randomUserId() {
+        return UUID.randomUUID().toString();
     }
 }

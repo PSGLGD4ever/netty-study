@@ -2,21 +2,31 @@ package com.beinglee.nettystudy.server.handler;
 
 import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
+import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.LocalDateUtils;
 import com.beinglee.nettystudy.utils.LoginUtils;
+import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.commons.lang3.StringUtils;
 
-public class ServerLoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+/**
+ * @author Luz
+ */
+public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
-        System.out.println(LocalDateUtils.now() + ":收到客户端登录请求...");
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         responsePacket.setVersion(loginRequestPacket.getVersion());
+        responsePacket.setUserId(LoginUtils.randomUserId());
         if (valid(loginRequestPacket)) {
             LoginUtils.markAsLogin(ctx.channel());
+            Session session = Session.builder()
+                    .userId(responsePacket.getUserId())
+                    .userName(loginRequestPacket.getUserName())
+                    .build();
+            SessionUtils.bindSession(session, ctx.channel());
             responsePacket.setSuccess(true);
             System.out.println(LocalDateUtils.now() + ":客户端登录成功～");
         } else {

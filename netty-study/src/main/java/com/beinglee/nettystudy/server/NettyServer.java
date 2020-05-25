@@ -5,7 +5,7 @@ import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
 import com.beinglee.nettystudy.server.handler.AuthHandler;
 import com.beinglee.nettystudy.server.handler.MessageRequestHandler;
-import com.beinglee.nettystudy.server.handler.ServerLoginHandler;
+import com.beinglee.nettystudy.server.handler.LoginRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -49,7 +49,7 @@ public class NettyServer {
                         System.out.println("客户端连接成功...");
                         channel.pipeline().addLast(new NettySpliter());
                         channel.pipeline().addLast(new PacketDecoder());
-                        channel.pipeline().addLast(new ServerLoginHandler());
+                        channel.pipeline().addLast(new LoginRequestHandler());
                         channel.pipeline().addLast(new AuthHandler());
                         channel.pipeline().addLast(new MessageRequestHandler());
                         channel.pipeline().addLast(new PacketEncoder());
