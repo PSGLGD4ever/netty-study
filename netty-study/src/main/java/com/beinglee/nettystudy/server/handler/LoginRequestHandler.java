@@ -3,12 +3,11 @@ package com.beinglee.nettystudy.server.handler;
 import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
 import com.beinglee.nettystudy.server.Session;
-import com.beinglee.nettystudy.utils.LocalDateUtils;
-import com.beinglee.nettystudy.utils.LoginUtils;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.apache.commons.lang3.StringUtils;
+
+import java.util.UUID;
 
 /**
  * @author Luz
@@ -19,27 +18,30 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         responsePacket.setVersion(loginRequestPacket.getVersion());
-        responsePacket.setUserId(LoginUtils.randomUserId());
+        responsePacket.setUserName(loginRequestPacket.getUserName());
         if (valid(loginRequestPacket)) {
-            LoginUtils.markAsLogin(ctx.channel());
+            String userId = randomUserId();
             Session session = Session.builder()
-                    .userId(responsePacket.getUserId())
+                    .userId(userId)
                     .userName(loginRequestPacket.getUserName())
                     .build();
             SessionUtils.bindSession(session, ctx.channel());
+            responsePacket.setUserId(userId);
             responsePacket.setSuccess(true);
-            System.out.println(LocalDateUtils.now() + ":客户端登录成功～");
+            System.out.println("[" + loginRequestPacket.getUserName() + "]登录成功");
         } else {
             responsePacket.setSuccess(false);
             responsePacket.setReason("账号密码校验失败");
-            System.out.println(LocalDateUtils.now() + ":客户端登录失败");
+            System.out.println("[" + loginRequestPacket.getUserName() + "]登录失败");
         }
         ctx.channel().writeAndFlush(responsePacket);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
-        String userName = loginRequestPacket.getUserName();
-        String password = loginRequestPacket.getPassword();
-        return StringUtils.equals(userName, "beingLee") && StringUtils.equals(password, "p@ssword");
+        return true;
+    }
+
+    private String randomUserId() {
+        return UUID.randomUUID().toString().split("-")[0];
     }
 }

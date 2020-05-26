@@ -10,6 +10,8 @@ public class MsgRequestPacket extends Packet {
 
     private String message;
 
+    private String toUserId;
+
     @Override
     public Byte getCommand() {
         return Command.MSG_REQUEST;

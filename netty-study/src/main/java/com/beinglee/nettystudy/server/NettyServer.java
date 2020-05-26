@@ -46,7 +46,6 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
-                        System.out.println("客户端连接成功...");
                         channel.pipeline().addLast(new NettySpliter());
                         channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new LoginRequestHandler());

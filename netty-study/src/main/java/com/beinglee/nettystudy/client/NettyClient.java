@@ -1,11 +1,13 @@
 package com.beinglee.nettystudy.client;
 
-import com.beinglee.nettystudy.client.handler.ClientLoginHandler;
+import com.beinglee.nettystudy.client.handler.LoginResponseHandler;
 import com.beinglee.nettystudy.client.handler.MessageResponseHandler;
 import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
+import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
+import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -40,7 +42,7 @@ public class NettyClient {
                     protected void initChannel(SocketChannel channel) {
                         channel.pipeline().addLast(new NettySpliter());
                         channel.pipeline().addLast(new PacketDecoder());
-                        channel.pipeline().addLast(new ClientLoginHandler());
+                        channel.pipeline().addLast(new LoginResponseHandler());
                         channel.pipeline().addLast(new MessageResponseHandler());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
@@ -66,18 +68,32 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
+        Scanner sc = new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()) {
-//                if (LoginUtils.hasLogin(channel)) {
-                System.out.println("输入消息发送至服务端: ");
-                Scanner sc = new Scanner(System.in);
-                String line = sc.nextLine();
-
-                MsgRequestPacket requestPacket = new MsgRequestPacket();
-                requestPacket.setMessage(line);
-                channel.writeAndFlush(requestPacket);
+                if (!SessionUtils.hasLogin(channel)) {
+                    System.out.println("请输入用户名登录: ");
+                    String userName = sc.nextLine();
+                    System.out.println("请输入密码:");
+                    String password = sc.nextLine();
+                    LoginRequestPacket login = new LoginRequestPacket();
+                    login.setUserName(userName);
+                    login.setPassword(password);
+                    channel.writeAndFlush(login);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    String toUserId = sc.nextLine();
+                    String message = sc.nextLine();
+                    MsgRequestPacket msgRequestPacket = new MsgRequestPacket();
+                    msgRequestPacket.setMessage(message);
+                    msgRequestPacket.setToUserId(toUserId);
+                    channel.writeAndFlush(msgRequestPacket);
+                }
             }
-//            }
         }).start();
     }
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class SessionUtils {
 
-    private static Map<String, Channel> userIdChannels = null;
+    private static Map<String, Channel> userIdChannels = new ConcurrentHashMap<>();
 
     public SessionUtils() {
         userIdChannels = new ConcurrentHashMap<>();
@@ -24,12 +24,25 @@ public abstract class SessionUtils {
         channel.attr(Attributes.SESSION).set(session);
     }
 
+    public static void unBindSession(Channel channel) {
+        if (hasLogin(channel)) {
+            String userId = getSession(channel).getUserId();
+            userIdChannels.remove(userId);
+            channel.attr(Attributes.SESSION).set(null);
+        }
+    }
+
     public static Channel getChannel(String userId) {
         return userIdChannels.get(userId);
     }
 
-    public static Session getSession() {
-        return null;
+    public static Session getSession(Channel channel) {
+        return channel.attr(Attributes.SESSION).get();
+    }
+
+    public static boolean hasLogin(Channel channel) {
+        boolean hasAttr = channel.hasAttr(Attributes.SESSION);
+        return hasAttr;
     }
 
 
