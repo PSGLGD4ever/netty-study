@@ -44,4 +44,9 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     private String randomUserId() {
         return UUID.randomUUID().toString().split("-")[0];
     }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        SessionUtils.unBindSession(ctx.channel());
+    }
 }

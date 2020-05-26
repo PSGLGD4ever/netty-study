@@ -81,13 +81,13 @@ public class NettyClient {
                     login.setPassword(password);
                     channel.writeAndFlush(login);
                     try {
-                        Thread.sleep(1000);
+                        TimeUnit.SECONDS.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    String toUserId = sc.nextLine();
-                    String message = sc.nextLine();
+                    String toUserId = sc.next();
+                    String message = sc.next();
                     MsgRequestPacket msgRequestPacket = new MsgRequestPacket();
                     msgRequestPacket.setMessage(message);
                     msgRequestPacket.setToUserId(toUserId);
