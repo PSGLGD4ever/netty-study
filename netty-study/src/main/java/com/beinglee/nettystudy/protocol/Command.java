@@ -10,4 +10,12 @@ public abstract class Command {
 
     public static final byte MSG_RESPONSE = 4;
 
+    public static final byte LOGOUT_REQUEST = 5;
+
+    public static final byte LOGOUT_RESPONSE = 6;
+
+    public static final byte CREATE_GROUP_REQUEST = 7;
+
+    public static final byte CREATE_GROUP_RESPONSE = 8;
+
 }

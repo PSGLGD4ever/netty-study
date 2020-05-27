@@ -1,12 +1,12 @@
 package com.beinglee.nettystudy.client;
 
+import com.beinglee.nettystudy.client.console.ConsoleManager;
+import com.beinglee.nettystudy.client.console.LoginConsoleCommand;
 import com.beinglee.nettystudy.client.handler.LoginResponseHandler;
 import com.beinglee.nettystudy.client.handler.MessageResponseHandler;
 import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
-import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
-import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -72,26 +72,10 @@ public class NettyClient {
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 if (!SessionUtils.hasLogin(channel)) {
-                    System.out.println("请输入用户名登录: ");
-                    String userName = sc.nextLine();
-                    System.out.println("请输入密码:");
-                    String password = sc.nextLine();
-                    LoginRequestPacket login = new LoginRequestPacket();
-                    login.setUserName(userName);
-                    login.setPassword(password);
-                    channel.writeAndFlush(login);
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+                    loginConsoleCommand.exec(sc, channel);
                 } else {
-                    String toUserId = sc.next();
-                    String message = sc.next();
-                    MsgRequestPacket msgRequestPacket = new MsgRequestPacket();
-                    msgRequestPacket.setMessage(message);
-                    msgRequestPacket.setToUserId(toUserId);
-                    channel.writeAndFlush(msgRequestPacket);
+                    ConsoleManager.INSTANCE.exec(sc, channel);
                 }
             }
         }).start();
