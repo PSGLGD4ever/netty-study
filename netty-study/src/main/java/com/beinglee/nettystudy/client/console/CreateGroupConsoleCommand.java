@@ -1,6 +1,6 @@
 package com.beinglee.nettystudy.client.console;
 
-import com.beinglee.nettystudy.protocol.packet.CreateGroupRequestPacket;
+import com.beinglee.nettystudy.protocol.request.CreateGroupRequestPacket;
 import io.netty.channel.Channel;
 
 import java.util.Arrays;

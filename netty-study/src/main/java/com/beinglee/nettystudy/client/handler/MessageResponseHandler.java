@@ -1,6 +1,6 @@
 package com.beinglee.nettystudy.client.handler;
 
-import com.beinglee.nettystudy.protocol.packet.MsgResponsePacket;
+import com.beinglee.nettystudy.protocol.response.MsgResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

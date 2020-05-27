@@ -1,7 +1,7 @@
 package com.beinglee.nettystudy.codec;
 
 import com.beinglee.nettystudy.protocol.PacketCodeC;
-import com.beinglee.nettystudy.protocol.packet.Packet;
+import com.beinglee.nettystudy.protocol.Packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

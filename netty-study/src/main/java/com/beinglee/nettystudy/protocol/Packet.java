@@ -1,4 +1,4 @@
-package com.beinglee.nettystudy.protocol.packet;
+package com.beinglee.nettystudy.protocol;
 
 import lombok.Data;
 

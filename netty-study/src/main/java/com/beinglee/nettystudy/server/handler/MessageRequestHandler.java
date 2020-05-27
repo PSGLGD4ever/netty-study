@@ -1,7 +1,7 @@
 package com.beinglee.nettystudy.server.handler;
 
-import com.beinglee.nettystudy.protocol.packet.MsgRequestPacket;
-import com.beinglee.nettystudy.protocol.packet.MsgResponsePacket;
+import com.beinglee.nettystudy.protocol.request.MsgRequestPacket;
+import com.beinglee.nettystudy.protocol.response.MsgResponsePacket;
 import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.channel.Channel;

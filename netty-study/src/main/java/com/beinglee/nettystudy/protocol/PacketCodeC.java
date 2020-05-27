@@ -1,6 +1,9 @@
 package com.beinglee.nettystudy.protocol;
 
-import com.beinglee.nettystudy.protocol.packet.*;
+import com.beinglee.nettystudy.protocol.request.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.request.MsgRequestPacket;
+import com.beinglee.nettystudy.protocol.response.LoginResponsePacket;
+import com.beinglee.nettystudy.protocol.response.MsgResponsePacket;
 import com.beinglee.nettystudy.protocol.serializer.JsonSerializer;
 import com.beinglee.nettystudy.protocol.serializer.Serializer;
 import io.netty.buffer.ByteBuf;

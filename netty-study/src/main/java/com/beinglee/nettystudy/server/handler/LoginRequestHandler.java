@@ -1,7 +1,7 @@
 package com.beinglee.nettystudy.server.handler;
 
-import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
-import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
+import com.beinglee.nettystudy.protocol.request.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.response.LoginResponsePacket;
 import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.channel.ChannelHandlerContext;

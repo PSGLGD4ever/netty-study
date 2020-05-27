@@ -1,6 +1,6 @@
 package com.beinglee.nettystudy.client.console;
 
-import com.beinglee.nettystudy.protocol.packet.LoginRequestPacket;
+import com.beinglee.nettystudy.protocol.request.LoginRequestPacket;
 import io.netty.channel.Channel;
 
 import java.util.Scanner;

@@ -1,6 +1,6 @@
 package com.beinglee.nettystudy.client.handler;
 
-import com.beinglee.nettystudy.protocol.packet.LoginResponsePacket;
+import com.beinglee.nettystudy.protocol.response.LoginResponsePacket;
 import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.channel.ChannelHandlerContext;

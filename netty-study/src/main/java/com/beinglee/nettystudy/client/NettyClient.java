@@ -2,6 +2,7 @@ package com.beinglee.nettystudy.client;
 
 import com.beinglee.nettystudy.client.console.ConsoleManager;
 import com.beinglee.nettystudy.client.console.LoginConsoleCommand;
+import com.beinglee.nettystudy.client.handler.CreateGroupResponseHandler;
 import com.beinglee.nettystudy.client.handler.LoginResponseHandler;
 import com.beinglee.nettystudy.client.handler.MessageResponseHandler;
 import com.beinglee.nettystudy.codec.NettySpliter;
@@ -44,6 +45,7 @@ public class NettyClient {
                         channel.pipeline().addLast(new PacketDecoder());
                         channel.pipeline().addLast(new LoginResponseHandler());
                         channel.pipeline().addLast(new MessageResponseHandler());
+                        channel.pipeline().addLast(new CreateGroupResponseHandler());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
                 });
