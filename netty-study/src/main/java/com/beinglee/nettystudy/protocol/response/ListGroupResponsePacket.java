@@ -22,7 +22,7 @@ public class ListGroupResponsePacket extends Packet {
 
     @Override
     public Byte getCommand() {
-        return Command.CREATE_GROUP_RESPONSE;
+        return Command.LIST_GROUP_RESPONSE;
     }
 
 }
