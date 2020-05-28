@@ -18,4 +18,8 @@ public abstract class Command {
 
     public static final byte CREATE_GROUP_RESPONSE = 8;
 
+    public static final byte LIST_GROUP_REQUEST = 9;
+
+    public static final byte LIST_GROUP_RESPONSE = 10;
+
 }

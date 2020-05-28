@@ -28,7 +28,7 @@ public class NettyServer {
         // 用来处理每一条连接 进行数据读写的线程组
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
-        ServerBootstrap server = new ServerBootstrap();
+        final ServerBootstrap server = new ServerBootstrap();
         // 指定线程模型
         server.group(masterGroup, workerGroup)
                 // 指定IO模型

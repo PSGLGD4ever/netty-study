@@ -15,15 +15,17 @@ public class ConsoleManager implements ConsoleCommand {
 
     public ConsoleManager() {
         consoleCommandMap = new HashMap<>();
-        consoleCommandMap.put("createGroup", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("create", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("list", new ListGroupConsoleCommand());
     }
 
     @Override
     public void exec(Scanner scanner, Channel channel) {
+        String command = scanner.next();
+
         if (!SessionUtils.hasLogin(channel)) {
             return;
         }
-        String command = scanner.next();
         ConsoleCommand consoleCommand = consoleCommandMap.get(command);
         if (consoleCommand == null) {
             System.err.println("无法识别[" + command + "]指令，请重新输入!");

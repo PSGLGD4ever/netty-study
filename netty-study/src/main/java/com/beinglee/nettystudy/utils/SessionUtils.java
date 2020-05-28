@@ -3,7 +3,9 @@ package com.beinglee.nettystudy.utils;
 import com.beinglee.nettystudy.protocol.Attributes;
 import com.beinglee.nettystudy.server.Session;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class SessionUtils {
 
     private static final Map<String, Channel> userIdChannels = new ConcurrentHashMap<>();
+
+    private static final Map<String, ChannelGroup> groupIdChannels = new HashMap<>();
 
     public static void bindSession(Session session, Channel channel) {
         userIdChannels.put(session.getUserId(), channel);
@@ -38,6 +42,14 @@ public abstract class SessionUtils {
 
     public static boolean hasLogin(Channel channel) {
         return channel.hasAttr(Attributes.SESSION);
+    }
+
+    public static void bindChannelGroup(String groupId, ChannelGroup channelGroup) {
+        groupIdChannels.put(groupId, channelGroup);
+    }
+
+    public static ChannelGroup getChannelGroup(String groupId) {
+        return groupIdChannels.get(groupId);
     }
 
 

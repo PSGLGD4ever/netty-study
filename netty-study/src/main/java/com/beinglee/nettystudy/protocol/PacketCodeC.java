@@ -1,7 +1,11 @@
 package com.beinglee.nettystudy.protocol;
 
+import com.beinglee.nettystudy.protocol.request.CreateGroupRequestPacket;
+import com.beinglee.nettystudy.protocol.request.ListGroupRequestPacket;
 import com.beinglee.nettystudy.protocol.request.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.request.MsgRequestPacket;
+import com.beinglee.nettystudy.protocol.response.CreateGroupResponsePacket;
+import com.beinglee.nettystudy.protocol.response.ListGroupResponsePacket;
 import com.beinglee.nettystudy.protocol.response.LoginResponsePacket;
 import com.beinglee.nettystudy.protocol.response.MsgResponsePacket;
 import com.beinglee.nettystudy.protocol.serializer.JsonSerializer;
@@ -30,6 +34,10 @@ public class PacketCodeC {
         packetTypes.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
         packetTypes.put(Command.MSG_REQUEST, MsgRequestPacket.class);
         packetTypes.put(Command.MSG_RESPONSE, MsgResponsePacket.class);
+        packetTypes.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypes.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypes.put(Command.LIST_GROUP_REQUEST, ListGroupRequestPacket.class);
+        packetTypes.put(Command.LIST_GROUP_RESPONSE, ListGroupResponsePacket.class);
 
         serializerTypes = new HashMap<>();
         Serializer serializer = new JsonSerializer();

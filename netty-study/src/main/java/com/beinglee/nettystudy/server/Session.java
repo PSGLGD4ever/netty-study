@@ -14,4 +14,9 @@ public class Session {
     private String userId;
 
     private String userName;
+
+    @Override
+    public String toString() {
+        return userId + ":" + userName;
+    }
 }

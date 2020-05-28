@@ -5,16 +5,18 @@ import com.beinglee.nettystudy.protocol.Packet;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
+/**
+ * @author zhanglu
+ * @date 2020/5/28 20:33
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CreateGroupRequestPacket extends Packet {
+public class ListGroupRequestPacket extends Packet {
 
-    private List<String> userIds;
+    private String groupId;
 
     @Override
     public Byte getCommand() {
-        return Command.CREATE_GROUP_REQUEST;
+        return Command.LIST_GROUP_REQUEST;
     }
 }
