@@ -3,10 +3,7 @@ package com.beinglee.nettystudy.server;
 import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.codec.PacketDecoder;
 import com.beinglee.nettystudy.codec.PacketEncoder;
-import com.beinglee.nettystudy.server.handler.AuthHandler;
-import com.beinglee.nettystudy.server.handler.CreateGroupRequestHandler;
-import com.beinglee.nettystudy.server.handler.LoginRequestHandler;
-import com.beinglee.nettystudy.server.handler.MessageRequestHandler;
+import com.beinglee.nettystudy.server.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -53,6 +50,7 @@ public class NettyServer {
                         channel.pipeline().addLast(new AuthHandler());
                         channel.pipeline().addLast(new MessageRequestHandler());
                         channel.pipeline().addLast(new CreateGroupRequestHandler());
+                        channel.pipeline().addLast(new ListGroupRequestHandler());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
                 });

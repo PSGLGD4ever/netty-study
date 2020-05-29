@@ -10,7 +10,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class ListGroupResponseHandler extends SimpleChannelInboundHandler<ListGroupResponsePacket> {
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ListGroupResponsePacket responsePacket) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, ListGroupResponsePacket responsePacket) {
         System.out.println("群[" + responsePacket.getGroupId() + "]中的人包括：" + responsePacket.getSessionList());
     }
 }
