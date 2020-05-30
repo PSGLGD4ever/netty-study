@@ -1,13 +1,7 @@
 package com.beinglee.nettystudy.protocol;
 
-import com.beinglee.nettystudy.protocol.request.CreateGroupRequestPacket;
-import com.beinglee.nettystudy.protocol.request.ListGroupRequestPacket;
-import com.beinglee.nettystudy.protocol.request.LoginRequestPacket;
-import com.beinglee.nettystudy.protocol.request.MsgRequestPacket;
-import com.beinglee.nettystudy.protocol.response.CreateGroupResponsePacket;
-import com.beinglee.nettystudy.protocol.response.ListGroupResponsePacket;
-import com.beinglee.nettystudy.protocol.response.LoginResponsePacket;
-import com.beinglee.nettystudy.protocol.response.MsgResponsePacket;
+import com.beinglee.nettystudy.protocol.request.*;
+import com.beinglee.nettystudy.protocol.response.*;
 import com.beinglee.nettystudy.protocol.serializer.JsonSerializer;
 import com.beinglee.nettystudy.protocol.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
@@ -38,6 +32,10 @@ public class PacketCodeC {
         packetTypes.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
         packetTypes.put(Command.LIST_GROUP_REQUEST, ListGroupRequestPacket.class);
         packetTypes.put(Command.LIST_GROUP_RESPONSE, ListGroupResponsePacket.class);
+        packetTypes.put(Command.JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypes.put(Command.JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetTypes.put(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetTypes.put(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
 
         serializerTypes = new HashMap<>();
         Serializer serializer = new JsonSerializer();

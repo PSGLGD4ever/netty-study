@@ -25,6 +25,6 @@ public class ListGroupRequestHandler extends SimpleChannelInboundHandler<ListGro
         ListGroupResponsePacket responsePacket = new ListGroupResponsePacket();
         responsePacket.setSessionList(sessions);
         responsePacket.setGroupId(groupId);
-        ctx.channel().writeAndFlush(sessions);
+        ctx.channel().writeAndFlush(responsePacket);
     }
 }

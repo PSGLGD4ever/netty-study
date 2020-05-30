@@ -22,4 +22,12 @@ public abstract class Command {
 
     public static final byte LIST_GROUP_RESPONSE = 10;
 
+    public static final byte JOIN_GROUP_REQUEST = 11;
+
+    public static final byte JOIN_GROUP_RESPONSE = 12;
+
+    public static final byte QUIT_GROUP_REQUEST = 13;
+
+    public static final byte QUIT_GROUP_RESPONSE = 14;
+
 }
