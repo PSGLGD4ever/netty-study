@@ -4,6 +4,9 @@ import com.beinglee.nettystudy.client.console.ConsoleManager;
 import com.beinglee.nettystudy.client.console.LoginConsoleCommand;
 import com.beinglee.nettystudy.client.handler.*;
 import com.beinglee.nettystudy.codec.NettySpliter;
+import com.beinglee.nettystudy.protocol.PacketCodeC;
+import com.beinglee.nettystudy.server.handler.IMIdleStateHandler;
+import com.beinglee.nettystudy.server.handler.PacketCodecHandler;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -37,8 +40,9 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel channel) {
+                        channel.pipeline().addLast(new IMIdleStateHandler());
                         channel.pipeline().addLast(new NettySpliter());
-                        channel.pipeline().addLast(new PacketDecoder());
+                        channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         channel.pipeline().addLast(new LoginResponseHandler());
                         channel.pipeline().addLast(new MessageResponseHandler());
                         channel.pipeline().addLast(new CreateGroupResponseHandler());
@@ -46,7 +50,8 @@ public class NettyClient {
                         channel.pipeline().addLast(new JoinGroupResponseHandler());
                         channel.pipeline().addLast(new QuitGroupResponseHandler());
                         channel.pipeline().addLast(new SendToGroupResponseHandler());
-                        channel.pipeline().addLast(new PacketEncoder());
+                        channel.pipeline().addLast(new HeartBeatTimerHandler());
+
                     }
                 });
         connect(bootstrap, HOST, PORT, MAX_RETRY);

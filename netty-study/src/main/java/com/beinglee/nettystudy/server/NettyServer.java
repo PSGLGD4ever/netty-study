@@ -2,6 +2,7 @@ package com.beinglee.nettystudy.server;
 
 import com.beinglee.nettystudy.codec.NettySpliter;
 import com.beinglee.nettystudy.server.handler.IMHandler;
+import com.beinglee.nettystudy.server.handler.IMIdleStateHandler;
 import com.beinglee.nettystudy.server.handler.PacketCodecHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -43,6 +44,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
+                        channel.pipeline().addLast(new IMIdleStateHandler());
                         channel.pipeline().addLast(new NettySpliter());
                         channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         channel.pipeline().addLast(IMHandler.INSTANCE);

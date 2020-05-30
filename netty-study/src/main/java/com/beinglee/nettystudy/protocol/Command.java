@@ -34,4 +34,8 @@ public abstract class Command {
 
     public static final byte SEND_TO_GROUP_RESPONSE = 16;
 
+    public static final byte HEARTBEAT_REQUEST = 17;
+
+    public static final byte HEARTBEAT_RESPONSE = 18;
+
 }
