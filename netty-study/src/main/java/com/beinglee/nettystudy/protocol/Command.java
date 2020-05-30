@@ -30,4 +30,8 @@ public abstract class Command {
 
     public static final byte QUIT_GROUP_RESPONSE = 14;
 
+    public static final byte SEND_TO_GROUP_REQUEST = 15;
+
+    public static final byte SEND_TO_GROUP_RESPONSE = 16;
+
 }

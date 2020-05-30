@@ -53,6 +53,7 @@ public class NettyServer {
                         channel.pipeline().addLast(new ListGroupRequestHandler());
                         channel.pipeline().addLast(new JoinGroupRequestHandler());
                         channel.pipeline().addLast(new QuitGroupRequestHandler());
+                        channel.pipeline().addLast(new SendToGroupRequestHandler());
                         channel.pipeline().addLast(new PacketEncoder());
                     }
                 });

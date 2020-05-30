@@ -36,6 +36,8 @@ public class PacketCodeC {
         packetTypes.put(Command.JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
         packetTypes.put(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
         packetTypes.put(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetTypes.put(Command.SEND_TO_GROUP_REQUEST, SendToGroupRequestPacket.class);
+        packetTypes.put(Command.SEND_TO_GROUP_RESPONSE, SendToGroupResponsePacket.class);
 
         serializerTypes = new HashMap<>();
         Serializer serializer = new JsonSerializer();
