@@ -1,9 +1,8 @@
 package com.beinglee.nettystudy.server;
 
 import com.beinglee.nettystudy.codec.NettySpliter;
-import com.beinglee.nettystudy.codec.PacketDecoder;
-import com.beinglee.nettystudy.codec.PacketEncoder;
-import com.beinglee.nettystudy.server.handler.*;
+import com.beinglee.nettystudy.server.handler.IMHandler;
+import com.beinglee.nettystudy.server.handler.PacketCodecHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -45,16 +44,8 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
                         channel.pipeline().addLast(new NettySpliter());
-                        channel.pipeline().addLast(new PacketDecoder());
-                        channel.pipeline().addLast(new LoginRequestHandler());
-                        channel.pipeline().addLast(new AuthHandler());
-                        channel.pipeline().addLast(new MessageRequestHandler());
-                        channel.pipeline().addLast(new CreateGroupRequestHandler());
-                        channel.pipeline().addLast(new ListGroupRequestHandler());
-                        channel.pipeline().addLast(new JoinGroupRequestHandler());
-                        channel.pipeline().addLast(new QuitGroupRequestHandler());
-                        channel.pipeline().addLast(new SendToGroupRequestHandler());
-                        channel.pipeline().addLast(new PacketEncoder());
+                        channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+                        channel.pipeline().addLast(IMHandler.INSTANCE);
                     }
                 });
         bind(server, PORT);

@@ -4,8 +4,6 @@ import com.beinglee.nettystudy.client.console.ConsoleManager;
 import com.beinglee.nettystudy.client.console.LoginConsoleCommand;
 import com.beinglee.nettystudy.client.handler.*;
 import com.beinglee.nettystudy.codec.NettySpliter;
-import com.beinglee.nettystudy.codec.PacketDecoder;
-import com.beinglee.nettystudy.codec.PacketEncoder;
 import com.beinglee.nettystudy.utils.SessionUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

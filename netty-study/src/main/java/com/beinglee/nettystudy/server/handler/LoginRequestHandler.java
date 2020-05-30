@@ -4,6 +4,7 @@ import com.beinglee.nettystudy.protocol.request.LoginRequestPacket;
 import com.beinglee.nettystudy.protocol.response.LoginResponsePacket;
 import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.SessionUtils;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -12,7 +13,12 @@ import java.util.UUID;
 /**
  * @author Luz
  */
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+    protected LoginRequestHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {

@@ -4,6 +4,7 @@ import com.beinglee.nettystudy.protocol.request.ListGroupRequestPacket;
 import com.beinglee.nettystudy.protocol.response.ListGroupResponsePacket;
 import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.SessionUtils;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -15,7 +16,13 @@ import java.util.stream.Collectors;
  * @author zhanglu
  * @date 2020/5/28 20:37
  */
+@ChannelHandler.Sharable
 public class ListGroupRequestHandler extends SimpleChannelInboundHandler<ListGroupRequestPacket> {
+
+    public static final ListGroupRequestHandler INSTANCE = new ListGroupRequestHandler();
+
+    protected ListGroupRequestHandler() {
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupRequestPacket requestPacket) {

@@ -4,6 +4,7 @@ import com.beinglee.nettystudy.protocol.request.QuitGroupRequestPacket;
 import com.beinglee.nettystudy.protocol.response.QuitGroupResponsePacket;
 import com.beinglee.nettystudy.server.Session;
 import com.beinglee.nettystudy.utils.SessionUtils;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -15,7 +16,12 @@ import java.util.stream.Collectors;
  * @author zhanglu
  * @date 2020/5/29 13:59
  */
+@ChannelHandler.Sharable
 public class QuitGroupRequestHandler extends SimpleChannelInboundHandler<QuitGroupRequestPacket> {
+
+    public static final QuitGroupRequestHandler INSTANCE = new QuitGroupRequestHandler();
+
+    protected QuitGroupRequestHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, QuitGroupRequestPacket requestPacket) {
